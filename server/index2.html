@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es-SV">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <title>ACO - Pantalla</title>
+    <link rel="shortcut icon" href="./img/icon2.png" type="image/x-icon">
+</head>
+
+<body style="height: 100%; background-color:green;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-3 text-center text-light">ACOGUADALUPANA DE RL</h1>
+            </div>
+            <div class="col-md-4">
+                <h1 class="text-center text-light">Atendiendo</h1>
+                <div class="card" style="height: 33%;">
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <h1 id="lblTicket2" class="display-4 text-center text-dark"><b></b></h1>
+                            <h3></h3>
+                            <h3 id="lblEscritorio2" class="text-center"></h3>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="card" style="height: 33%;">
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <h1 id="lblTicket3" class="display-4 text-center text-dark"><b></b></h1>
+                            <h3 id="lblEscritorio3" class="text-center"></h3>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="card" style="height: 33%;">
+                    <div class="card-body text-center">
+                        <blockquote class="blockquote mb-0">
+                            <h1 id="lblTicket4" class="display-4 text-center text-dark"><b></b></h1>
+                            <h3 id="lblEscritorio4" class="text-center"></h3>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h1 class="text-center text-light">Gracias por su Visita</h1>
+                <div class="card" style="height: 100%;">
+                    <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <h1 style="font-size: 300px;" id="lblTicket1" class="display-4 text-center text-dark">
+                                <b></b></h1>
+                            <h2 style="font-size: 60px;" id="lblEscritorio1" class="text-center"></h2>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <br>
+                <br>
+                <h3 class="display-3 text-center text-light"></h3>
+            </div>
+            <div class="col-md-12">
+                <h3 class="text-center text-light">http://acoguadalupana.com</h3>
+            </div>
+        </div>
+    </div>
+    <audio id="xyz" src="./audio/store-door-chime.mp3" preload="auto"></audio>
+
+</body>
+<script src="./assets/jquery/jquery-3.4.1.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+</script>
+<script src="./assets/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+</script>
+<script src="socket.io/socket.io.js"></script>
+
+<script>
+    var socket = io();
+    var lblTicket1 = $('#lblTicket1');
+    var lblTicket2 = $('#lblTicket2');
+    var lblTicket3 = $('#lblTicket3');
+    var lblTicket4 = $('#lblTicket4');
+
+    var lblEscritorio1 = $('#lblEscritorio1');
+    var lblEscritorio2 = $('#lblEscritorio2');
+    var lblEscritorio3 = $('#lblEscritorio3');
+    var lblEscritorio4 = $('#lblEscritorio4');
+
+
+    socket.on('connect', function () {
+        console.log("Conectado");
+    });
+
+    function reproaudio(param) {
+        speechSynthesis.speak(new SpeechSynthesisUtterance(param))
+    }
+    var data;
+
+    socket.on('showrows', function (rows) {
+        if (data != rows[0].ticket) {
+            reproaudio(rows[0].ticket + " en ventanilla " + rows[0].escritorio);
+        }
+        data = rows[0].ticket;
+
+        lblTicket1.text(rows[0].ticket);
+        lblEscritorio1.text("Ventanilla " + rows[0].escritorio);
+        lblTicket2.text(rows[1].ticket);
+        lblEscritorio2.text("Ventanilla " + rows[1].escritorio);
+        lblTicket3.text(rows[2].ticket);
+        lblEscritorio3.text("Ventanilla " + rows[2].escritorio);
+        lblTicket4.text(rows[3].ticket);
+        lblEscritorio4.text("Ventanilla " + rows[3].escritorio);
+    });
+</script>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <title>ACO - Escritorio</title>
+    <link rel="shortcut icon" href="./img/icon2.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <button id="repetir" type="submit" class="btn btn-success">Repetir</button>
+    </div>
+
+
+</body>
+<script src="./assets/jquery/jquery-3.4.1.min.js"></script>
+<script src="./assets/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="./assets/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+</script>
+<script src="socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    socket.on('connect', function () {
+        console.log("Conectado");
+    });
+    $('#repetir').on('click', function () {
+        socket.emit('repetir_ticket');
+    });
+</script>
+
+</html>
